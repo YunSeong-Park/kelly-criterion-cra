@@ -1,6 +1,8 @@
 import { atom } from "jotai";
+import { stockInfoAtom } from "./stocks-info";
 
 export const currentStockAtom = atom<string | undefined>(undefined);
+
 export const setCurrentStockAtom = atom(null, (get, set, update: string) => {
   const idList = get(stockIdListAtom);
 
@@ -18,6 +20,7 @@ export const deleteStockAtom = atom(null, (get, set, id: string) => {
 
   if (idx !== -1) {
     update.splice(idx, 1);
+    stockInfoAtom.remove(id);
     const currentStock = get(currentStockAtom);
     if (currentStock === id) {
       set(currentStockAtom, undefined);
