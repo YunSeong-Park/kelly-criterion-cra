@@ -6,9 +6,18 @@ export const currentStockAtom = atom<string | undefined>(undefined);
 export const setCurrentStockAtom = atom(null, (get, set, update: string) => {
   const idList = get(stockIdListAtom);
 
-  if (idList.includes(update)) {
-    set(currentStockAtom, update);
+  if (!idList.includes(update)) {
+    throw Error("존재하지 않는 id입니다.");
   }
+
+  const prevId = get(currentStockAtom);
+  if (prevId !== undefined) {
+    set(stockInfoAtom(prevId), (prev) => ({ ...prev, selected: false }));
+  }
+
+  set(stockInfoAtom(update), (prev) => ({ ...prev, selected: true }));
+
+  set(currentStockAtom, update);
 });
 
 export const stockIdListAtom = atom<string[]>([]);
@@ -35,6 +44,6 @@ export const addStockAtom = atom(null, (get, set, id: string) => {
 
   update.push(id);
 
-  set(currentStockAtom, id);
   set(stockIdListAtom, update);
+  set(setCurrentStockAtom, id);
 });

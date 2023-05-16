@@ -1,22 +1,13 @@
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import {
-  addStockAtom,
-  currentStockAtom,
-  deleteStockAtom,
-  setCurrentStockAtom,
-  stockIdListAtom,
-} from "../../atoms/stock";
+import { useAtomValue, useSetAtom } from "jotai";
+import { addStockAtom, stockIdListAtom } from "../../atoms/stock";
 import { css } from "@emotion/react";
+import StockTabItem from "./StockTabItem";
 
 let index = 0;
 
 const StockTab = () => {
-  const currentStock = useAtomValue(currentStockAtom);
-  const setCurrentStock = useSetAtom(setCurrentStockAtom);
-
   const idList = useAtomValue(stockIdListAtom);
   const addStock = useSetAtom(addStockAtom);
-  const deleteStock = useSetAtom(deleteStockAtom);
 
   return (
     <div
@@ -30,16 +21,7 @@ const StockTab = () => {
         `}
       >
         {idList.map((id) => (
-          <div
-            key={id}
-            css={css`
-              color: ${currentStock === id ? "blue" : "black"};
-            `}
-            onClick={() => setCurrentStock(id)}
-          >
-            {id}
-            <button onClick={() => deleteStock(id)}>x</button>
-          </div>
+          <StockTabItem id={id} key={id} />
         ))}
       </div>
 
