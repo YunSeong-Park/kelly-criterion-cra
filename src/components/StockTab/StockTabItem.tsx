@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { useAtom, useSetAtom } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { stockLabelAtom } from "../../atoms/stocks-info";
 import { deleteStockAtom, setCurrentStockAtom } from "../../atoms/stock";
 import { memo } from "react";
@@ -9,7 +9,7 @@ interface StockTabItemProps {
 }
 
 const StockTabItem = ({ id }: StockTabItemProps) => {
-  const [stockLabel] = useAtom(stockLabelAtom(id));
+  const stockLabel = useAtomValue(stockLabelAtom(id));
   const setCurrentStock = useSetAtom(setCurrentStockAtom);
   const deleteStock = useSetAtom(deleteStockAtom);
 
