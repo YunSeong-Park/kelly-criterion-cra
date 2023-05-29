@@ -1,12 +1,15 @@
 import { css } from "@emotion/react";
 import colors from "../../styles/color.style";
 import shadows from "../../styles/shadow.style";
+import { ChangeEventHandler } from "react";
 
-interface TextFieldProps {
-  value: string;
-  onChange: (value: string) => void;
+type TextFieldProps<T extends string | number> = {
+  value: T;
+  onChange?: ChangeEventHandler<HTMLInputElement>;
   endAornment?: React.ReactNode;
-}
+  type: T extends number ? "number" : "text" | undefined;
+};
+
 const rootStyle = css`
   display: inline-flex;
   align-items: center;
@@ -31,14 +34,19 @@ const textRightStyle = css`
   text-align: right;
 `;
 
-const TextField = ({ value, onChange, endAornment }: TextFieldProps) => {
+const TextField = <T extends string | number>({
+  value,
+  onChange,
+  endAornment,
+  type = "text",
+}: TextFieldProps<T>) => {
   return (
     <div css={rootStyle}>
       <input
         css={endAornment && textRightStyle}
-        type="text"
+        type={type}
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={onChange}
       />
       {endAornment}
     </div>
