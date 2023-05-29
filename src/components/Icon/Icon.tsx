@@ -1,8 +1,10 @@
 import { css } from "@emotion/react";
 import { ReactComponent as plus } from "./asset/plus.svg";
+import { ReactComponent as x } from "./asset/x.svg";
 
 const icons = {
   plus: plus,
+  x: x,
 } as const;
 
 const sizeStyle = {
