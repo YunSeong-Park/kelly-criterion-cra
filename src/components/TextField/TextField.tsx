@@ -8,6 +8,8 @@ type TextFieldProps<T extends string | number> = {
   onChange?: ChangeEventHandler<HTMLInputElement>;
   endAornment?: React.ReactNode;
   type: T extends number ? "number" : "text" | undefined;
+  isFullWidth?: boolean;
+  width?: string;
 };
 
 const rootStyle = css`
@@ -20,6 +22,8 @@ const rootStyle = css`
   font-weight: 400;
   font-size: 14px;
   color: ${colors.gray[500]};
+
+  box-sizing: border-box;
   ${shadows.xs.styles};
   > input {
     border: none;
@@ -39,9 +43,23 @@ const TextField = <T extends string | number>({
   onChange,
   endAornment,
   type = "text",
+  isFullWidth = false,
+  width,
 }: TextFieldProps<T>) => {
   return (
-    <div css={rootStyle}>
+    <div
+      css={[
+        rootStyle,
+        isFullWidth &&
+          css`
+            width: 100%;
+          `,
+        width &&
+          css`
+            width: ${width};
+          `,
+      ]}
+    >
       <input
         css={endAornment && textRightStyle}
         type={type}
